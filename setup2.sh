@@ -7,5 +7,5 @@ virtualenv env
 source env/bin/activate
 pip3 install -r requirements.txt
 chmod +x main.py
-cd ..
-sudo printf 'cd pasmanager\nsource env/bin/activate\n python main.py' > password-manager.sh
+printf 'cd pasmanager\nsource env/bin/activate\n python main.py' > password-manager.sh
+sudo mv password-manager.sh /usr/local/bin
