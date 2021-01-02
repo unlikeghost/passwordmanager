@@ -9,4 +9,5 @@ pip3 install -r requirements.txt
 chmod +x consider upgrading via the '/usr/local/bin/passmanager/env/bin/python -m pip install --upgrade pip' command.main.py
 sudo printf 'cd passmanager\nsource env/bin/activate\npython main.py' > pssmanager.sh
 sudo mv pssmanager.sh /usr/local/bin
-sudo chmod +x pssmanager.sh
+sudo chown root: /usr/local/bin/pssmanager.sh
+sudo chmod 755 /usr/local/bin/pssmanager.sh
