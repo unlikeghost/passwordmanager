@@ -105,7 +105,7 @@ class encriptacion:
                 if eleccion == "M" or eleccion == "m":
                     break
                 elif eleccion == "Q" or eleccion == "q":
-                    exit(0)
+                    self.salir()
                 else:
                     print(colores.rojo+"No es una opcion valida")
                     time.sleep(1)
