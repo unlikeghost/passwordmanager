@@ -2,20 +2,23 @@
 
 Password-manager es un gestor de contraseñas que utiliza la encriptación por bloques.
 
-## Instalación
+# Instalación
 
 Utiliza el gestor de paquetes [pip](https://pip.pypa.io/en/stable/) para instalar los requerimientos
 
+## Linux
 ```bash
-pip install -r requirements.txt 
+sudo setup.sh
 ```
 
-## Uso
+# Uso
 
-```bash 
-python main.py
+## Linux
+```bash
+sudo pssmanager
 ```
 
-## Contribuciones
+# Contribuciones
+
 Las solicitudes de pull son bienvenidas. Para cambios importantes, abra un problema primero para discutir qué le gustaría cambiar.
 Please make sure to update tests as appropriate.
