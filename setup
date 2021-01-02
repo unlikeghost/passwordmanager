@@ -10,7 +10,7 @@ source env/bin/activate
 pip3 install -r requirements.txt
 chmod +x main.py
 sudo printf '#!/bin/bash\ncd /usr/local/bin/passmanager\nsource env/bin/activate\npython main.py' > pssmanager
-sudo printf '#!/bin/bash\ncd /usr/local/bin\nsudo rm -r passmanager\n sudo rm pssmanager' > pssmanager-uninstall
+sudo printf '#!/bin/bash\ncd /usr/local/bin\nsudo rm -r passmanager\n sudo rm pssmanager\nsudo rm pssmanager-uninstall' > pssmanager-uninstall
 sudo mv pssmanager /usr/local/bin
 sudo mv pssmanager-uninstall /usr/local/bin
 sudo chown root: /usr/local/bin/pssmanager
