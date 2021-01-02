@@ -66,8 +66,8 @@ class encriptacion:
             data = ' '+data
 
         pss=self.cifrado.hexdigest()
-        obj = AES.new(pss[0:32], AES.MODE_CBC,pss[0:16])
-        ciphertext = obj.encrypt(data)
+        obj = AES.new(pss[0:32].encode('utf-8'), AES.MODE_CBC,pss[0:16].encode('utf-8'))
+        ciphertext = obj.encrypt(data.encode("utf-8"))
 
         with open(f'Data/{sitio}/{filex}.JAHG', 'wb') as f:
             f.write(ciphertext)
@@ -95,7 +95,7 @@ class encriptacion:
                     with open(os.path.join("Data",dir[eleccion-1], ''.join(next(os.walk(f'Data/{dir[eleccion-1]}'))[2])), 'rb') as f:
                         data=f.read()
                     f.close()
-                    self.obj = AES.new(pss[0:32], AES.MODE_CBC, pss[0:16])
+                    self.obj = AES.new(pss[0:32].encode('utf-8'), AES.MODE_CBC, pss[0:16].encode('utf-8'))
                     self.mostar(data)
                     time.sleep(5)
                 else:
