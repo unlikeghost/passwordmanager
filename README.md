@@ -4,8 +4,7 @@ Password-manager es un gestor de contraseñas que utiliza la encriptación por b
 
 # Instalación
 
-Utiliza el gestor de paquetes [pip](https://pip.pypa.io/en/stable/) para instalar los requerimientos
-
+Utiliza sudo para su configuracion correcta
 ## Linux
 ```bash
 sudo setup.sh
