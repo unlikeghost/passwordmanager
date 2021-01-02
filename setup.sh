@@ -2,6 +2,8 @@
 pip3 install virtualenv
 sudo mkdir /usr/local/bin/passmanager
 sudo mv *.py *.txt *md *.sh /usr/local/bin/passmanager
+cd ..
+sudo rm -r passmanager
 cd /usr/local/bin/passmanager
 sudo virtualenv env
 source env/bin/activate
