@@ -16,7 +16,12 @@ sudo ./setup
 ```bash
 sudo pssmanager
 ```
+# Desinstalacion
 
+## Linux
+``` bash 
+sudo pssmanager-uninstall
+```
 # Contribuciones
 
 Las solicitudes de pull son bienvenidas. Para cambios importantes, abra un problema primero para discutir qué le gustaría cambiar.
