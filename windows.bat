@@ -1,0 +1,3 @@
+pip install virtualenv
+virtualenv env
+env\Scripts\activate && pip install -r requirements.txt   && pip install pyinstaller   && pyinstaller --name pssmanager --onefile main.py   && mkdir pssmanager   && cd dist   && move pssmanager.exe ../pssmanager   && cd..   && rmdir /s /q build   && rmdir /s /q dist   && rmdir /s /q __pycache__   && del pssmanager.spec   && del .gitignore   && del linux   && del main.py   && del README.md   && del requirements.txt   && rmdir /s /q env  && del windows.bat
