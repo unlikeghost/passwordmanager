@@ -4,11 +4,18 @@ Password-manager es un gestor de contraseñas que utiliza la encriptación por b
 
 # Instalación
 
-Utiliza sudo para su configuracion correcta
 ## Linux
 ```bash
 sudo ./linux
 ```
+Utiliza sudo para su configuracion correcta
+
+---
+## Windows
+``` cmd
+windows.bat
+```
+O solo ejecuta el archivo windows.bat
 
 # Uso
 
@@ -16,12 +23,24 @@ sudo ./linux
 ```bash
 sudo pssmanager
 ```
+---
+## Windows
+
+Se generarar una carpeta llamada pssmanager, colocala donde gustes y dentro estara el archivo ejecutable
+
 # Desinstalacion
 
 ## Linux
 ``` bash 
 sudo pssmanager-uninstall
 ```
+
+---
+
+## Windows 
+
+Solo elimina la carpeta pssmanager y se eliminaran todos los datos y el programa
+
 # Contribuciones
 
 Las solicitudes de pull son bienvenidas. Para cambios importantes, abra un problema primero para discutir qué le gustaría cambiar.
