@@ -7,7 +7,7 @@ Password-manager es un gestor de contraseñas que utiliza la encriptación por b
 Utiliza sudo para su configuracion correcta
 ## Linux
 ```bash
-sudo ./setup
+sudo ./linux
 ```
 
 # Uso
