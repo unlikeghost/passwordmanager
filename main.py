@@ -1,17 +1,24 @@
 # coding=utf-8
-import os,time,hashlib
-from Crypto.Cipher import AES
+"""Passwordmanager es una aplicacion para gestion de contrasenas"""
+import os
+import time
+import hashlib
+import random
+import string
+import sys
+import shutil
 from getpass import getpass
-import random,string,sys,shutil
+from Crypto.Cipher import AES
 
-sistema = os.name
+SISTEMA = os.name
 
 clsmode={
     "nt":"cls",
     "posix":"clear"
 }
 
-class colores:
+class Colores:
+    """Colores del sistema"""
     morado = '\033[95m' #morado mostrat listas
     verde = '\033[92m' #verde todo correcto
     amarillo = '\033[93m' #amarillo warnings
@@ -20,7 +27,8 @@ class colores:
     azul = '\033[94m' #azul
 
 def titulo():
-    print(colores.amarillo+r"""
+    """Titulo del programa"""
+    print(Colores.amarillo+r"""
         (                                                                           
         )\ )                           (                                            
         (()/(   )       (  (       (    )\ )     )      )          ) (  (    (  (    
@@ -32,85 +40,87 @@ def titulo():
                                                                     |___/            
         """)
 
-class encriptacion:
+class Encriptacion:
+    """"Classe para encriptacion"""
     def __init__(self):
         self.cifrado=hashlib.blake2s()
     def encriptar(self):
-        dir=next(os.walk('Data'))[1]
-        os.system(clsmode[sistema])
+        """Funcion para encriptar los datos"""
+        dirx=next(os.walk('Data'))[1]
+        os.system(clsmode[SISTEMA])
         titulo()
         sitio = input('Agregar sitio a cual corresponde: ')
-        while sitio in dir:
-            remplazar=input(colores.amarillo+"Este sitio ya lo tienes registrado, deseas remplazar su informacion? S/N: ")
-            if remplazar == "S" or remplazar=="s":
-                shutil.rmtree(os.path.join("Data",dir[dir.index(sitio)]))
-                break
-                # os.rmdir(os.path.join(os.pos.path.join("Data",dir[dir.index(sitio)]))ath.join("Data",dir[dir.index(sitio)])))
-            elif remplazar == "N" or remplazar=="n":
+        while sitio in dirx:
+            remplazar=input(Colores.amarillo+
+            "Este sitio ya lo tienes registrado, deseas remplazar su informacion? S/N: ")
+            if remplazar in ("s","S"):
+                shutil.rmtree(os.path.join("Data",dirx[dirx.index(sitio)]))
+                dirx=next(os.walk('Data'))[1]
+                # break
+            elif remplazar in ('N','n'):
                 sitio =input('Agregar sitio a cual corresponde: ')
 
         usuario = input('Usuario o correo electronico: ')
         pswd = getpass('Contraseña:')
-        password=getpass(colores.azul+"Escribe tu master password: ").encode('utf-8')
-        
+        password=getpass(Colores.azul+"Escribe tu master password: ").encode('utf-8')
         self.cifrado.update(password)
         data=f"{usuario}----{pswd}"
         filex= ''.join([random.choice(string.ascii_lowercase) for n in range(5)])
-
         try:
             os.mkdir(os.path.join("Data",sitio))
-        except Exception as e:
-            print(e)
-
+        except EnvironmentError:
+            print(Colores.rojo+"No pudimos crear el directorio intenta de nuevo")
         while len(data) %16 !=0:
             data = ' '+data
-
         pss=self.cifrado.hexdigest()
         obj = AES.new(pss[0:32].encode('utf-8'), AES.MODE_CBC,pss[0:16].encode('utf-8'))
         ciphertext = obj.encrypt(data.encode("utf-8"))
-
-        with open(f'Data/{sitio}/{filex}.JAHG', 'wb') as f:
-            f.write(ciphertext)
-        print(colores.verde+"Guardado con exito")
+        with open(f'Data/{sitio}/{filex}.JAHG', 'wb') as filex:
+            filex.write(ciphertext)
+        filex.close()
+        print(Colores.verde+"Guardado con exito")
         time.sleep(2)
 
     def desencriptar(self):
+        """Funcion para desencriptar los datos"""
         while True:
             self.cifrado=hashlib.blake2s()
-            os.system(clsmode[sistema])
+            os.system(clsmode[SISTEMA])
             titulo()
-            dir=next(os.walk('Data'))[1]
-            for index,name in enumerate(dir):
-                print(colores.morado+f"{index+1}.-{name}\n")
+            dirx=next(os.walk('Data'))[1]
+            for index,name in enumerate(dirx):
+                print(Colores.morado+f"{index+1}.-{name}\n")
             print("M.- Para volver al menu\n")
             print("Q.- Para salir\n")
             eleccion=input('>>>')
-
             try:
                 eleccion=int(eleccion)
-                if eleccion <= len(dir):
-                    password=getpass(colores.azul+"Escribe tu master password: ").encode('utf-8')
+                if eleccion <= len(dirx):
+                    password=getpass(Colores.azul+"Escribe tu master password: ").encode('utf-8')
                     self.cifrado.update(password)
                     pss=self.cifrado.hexdigest()
-                    with open(os.path.join("Data",dir[eleccion-1], ''.join(next(os.walk(f'Data/{dir[eleccion-1]}'))[2])), 'rb') as f:
-                        data=f.read()
-                    f.close()
-                    self.obj = AES.new(pss[0:32].encode('utf-8'), AES.MODE_CBC, pss[0:16].encode('utf-8'))
+                    with open(os.path.join("Data",dirx[eleccion-1],
+                    ''.join(next(os.walk(f'Data/{dirx[eleccion-1]}'))[2])), 'rb') as filex:
+                        data=filex.read()
+                    filex.close()
+                    self.obj = AES.new(pss[0:32].encode('utf-8'),
+                                        AES.MODE_CBC, pss[0:16].encode('utf-8'))
                     self.mostar(data)
                     time.sleep(5)
                 else:
-                    print(colores.rojo+"No es una opcion valida")
+                    print(Colores.rojo+"No es una opcion valida")
                     time.sleep(1)
-            except:
-                if eleccion == "M" or eleccion == "m":
+            except ValueError:
+                if eleccion in ("q","Q"):
+                    salir()
+                elif eleccion in ("m","M"):
                     break
-                elif eleccion == "Q" or eleccion == "q":
-                    self.salir()
                 else:
-                    print(colores.rojo+"No es una opcion valida")
+                    print(Colores.rojo+"No es una opcion valida")
                     time.sleep(1)
 
     def mostar(self,data):
+        """ Metodo para mostrar usuarios desencriptados"""
         try:
             data=self.obj.decrypt(data)
             data=data.decode()
@@ -119,35 +129,36 @@ class encriptacion:
             password=data[data.find("----")+4:]
             print(f"Usuario: {user}\nContraseña: {password}")
         except UnicodeDecodeError:
-            print(colores.rojo+"Contrasena incorrecta")
-    def salir(self):
-        os.system(clsmode[sistema])
-        exit(0)
-    
+            print(Colores.rojo+"Contrasena incorrecta")
+
+def salir():
+    """Metodo para salir"""
+    os.system(clsmode[SISTEMA])
+    sys.exit(0)
 
 def main():
-    crypt=encriptacion()
+    """Metodo que llama al menu principal"""
+    crypt=Encriptacion()
     opciones={  "Desencriptar cuenta":crypt.desencriptar,
                 "Encriptar nueva cuenta": crypt.encriptar,
-                "Salir":crypt.salir
+                "Salir":salir
                 }
-    opcionesLista=["Desencriptar cuenta","Encriptar nueva cuenta","Salir"]
-
+    opciones_lista=["Desencriptar cuenta","Encriptar nueva cuenta","Salir"]
     while True:
-        os.system(clsmode[sistema])
+        os.system(clsmode[SISTEMA])
         titulo()
         for index,opcion in enumerate(opciones):
-            print(colores.morado+f"{index+1}.-{opcion}\n")
+            print(Colores.morado+f"{index+1}.-{opcion}\n")
         eleccion=input(">>>")
         try:
             eleccion=int(eleccion)
-            if eleccion <= len(opcionesLista):
-                opciones[opcionesLista[eleccion-1]]()
+            if eleccion <= len(opciones_lista):
+                opciones[opciones_lista[eleccion-1]]()
             else:
-                print(colores.rojo+"No es una opcion valida")
-                time.sleep(1)  
+                print(Colores.rojo+"No es una opcion valida")
+                time.sleep(1)
         except ValueError:
-            print(colores.rojo+"No es una opcion valida")
+            print(Colores.rojo+"No es una opcion valida")
             time.sleep(1)
 
 if __name__ == "__main__":
@@ -159,5 +170,5 @@ if __name__ == "__main__":
             sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=32, cols=100))
             os.mkdir("Data")
             main()
-        except Exception as e:
-            print(e)
+        except EnvironmentError:
+            print(Colores.rojo+"No pudimos crear el fichero, intenda despues")
