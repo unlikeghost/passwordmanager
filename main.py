@@ -12,6 +12,10 @@ from Crypto.Cipher import AES
 
 SISTEMA = os.name
 
+if SISTEMA == "posix":
+    import pwd
+    USUARIO=pwd.getpwuid(os.getuid())[0]
+
 clsmode={
     "nt":"cls",
     "posix":"clear"
@@ -131,6 +135,58 @@ class Encriptacion:
         except UnicodeDecodeError:
             print(Colores.rojo+"Contrasena incorrecta")
 
+def respaldar():
+    """Metodo para respaldar informacion en un dispositivo fisico """
+    if not os.listdir("Data"):
+        print(Colores.rojo+"Aun no tienes informacion almacenada")
+        time.sleep(1)
+    else:
+        dispositivo=input("Nombre del dispositivo >>> ")
+        if SISTEMA == "posix":
+            ruta=f"/media/{USUARIO}/{dispositivo}/"
+            if os.path.isdir(ruta):
+                ruta=ruta+"/pssmanager/Data"
+                try:
+                    print(Colores.amarillo+"Esto puede demorar un momento")
+                    shutil.copytree("Data",ruta)
+                    print(Colores.verde+"Completado")
+                    time.sleep(1)
+                except IOError:
+                    print(Colores.rojo+"No se pudo copiar en el dispositivo")
+                    time.sleep(1)
+            else:
+                print(Colores.rojo+"No existe el dispositivo")
+                time.sleep(1)
+        else:
+            pass
+
+def importar():
+    """Metodo para pasar informacion de un dispositivo fisico """
+    print(Colores.amarillo+"La estructura en tu dispositivo debe ser de la sig manera")
+    print(Colores.blanco+"Dispositivo\pssmanager\Data")
+    dispositivo=input("Nombre del dispositivo >>> ")
+    if SISTEMA == "posix":
+        ruta=f"/media/{USUARIO}/{dispositivo}/"
+        if os.path.isdir(ruta):
+            if os.path.isdir(f"{ruta}/pssmanager/Data"):
+                for archivo in os.listdir(f"{ruta}/pssmanager/Data/"):
+                    if archivo in os.listdir("Data"):
+                        remplazar=input(Colores.amarillo+
+                        f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
+                        if remplazar in ("s","S"):
+                            shutil.rmtree(os.path.join("Data",archivo))
+                            shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+                    else:
+                        shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+            else:
+                print(Colores.rojo+"Verifica el orden de tu dispositivo")
+                time.sleep(1)
+        else:
+            print(Colores.rojo+"No existe el dispositivo")
+            time.sleep(1)
+    else:
+        pass
+
 def salir():
     """Metodo para salir"""
     os.system(clsmode[SISTEMA])
@@ -141,9 +197,11 @@ def main():
     crypt=Encriptacion()
     opciones={  "Desencriptar cuenta":crypt.desencriptar,
                 "Encriptar nueva cuenta": crypt.encriptar,
+                "Respaldar en dispositivo":respaldar,
+                "Importar informacion": importar,
                 "Salir":salir
                 }
-    opciones_lista=["Desencriptar cuenta","Encriptar nueva cuenta","Salir"]
+    opciones_lista=["Desencriptar cuenta","Encriptar nueva cuenta","Respaldar en dispositivo","Importar informacion","Salir"]
     while True:
         os.system(clsmode[SISTEMA])
         titulo()
