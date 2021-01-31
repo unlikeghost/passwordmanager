@@ -60,7 +60,6 @@ class Encriptacion:
             if remplazar in ("s","S"):
                 shutil.rmtree(os.path.join("Data",dirx[dirx.index(sitio)]))
                 dirx=next(os.walk('Data'))[1]
-                # break
             elif remplazar in ('N','n'):
                 sitio =input('Agregar sitio a cual corresponde: ')
 
@@ -178,6 +177,8 @@ def importar():
                             shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
                     else:
                         shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+                print(Colores.verde+"Completado")
+                time.sleep(1)
             else:
                 print(Colores.rojo+"Verifica el orden de tu dispositivo")
                 time.sleep(1)
