@@ -1,6 +1,7 @@
 # PASSWORD-MANAGER
 
 Password-manager es un gestor de contraseñas que utiliza la encriptación por bloques.
+Requiere python 3.X
 
 # Instalación
 
