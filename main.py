@@ -178,21 +178,22 @@ def respaldar():
 def importar():
     """Metodo para pasar informacion de un dispositivo fisico """
     print(Colores.amarillo+"La estructura en tu dispositivo debe ser de la sig manera")
-    print(Colores.blanco+"Dispositivo\pssmanager\Data")
+    print(Colores.blanco+r"Dispositivo/pssmanager/Data")
     dispositivo=input("Nombre del dispositivo >>> ")
     if SISTEMA == "posix":
         ruta=f"/media/{USUARIO}/{dispositivo}/"
         if os.path.isdir(ruta):
-            if os.path.isdir(f"{ruta}/pssmanager/Data"):
-                for archivo in os.listdir(f"{ruta}/pssmanager/Data/"):
-                    if archivo in os.listdir("Data"):
-                        remplazar=input(Colores.amarillo+
-                        f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
-                        if remplazar in ("s","S"):
-                            shutil.rmtree(os.path.join("Data",archivo))
-                            shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
-                    else:
-                        shutil.copytree(f"{ruta}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+            if os.path.isdir(f"{ruta}/pssmanager"):
+                for directorio in os.listdir(f"{ruta}/pssmanager/"):
+                    for archivo in os.listdir(f"{ruta}/pssmanager/{directorio}"):
+                        if archivo in os.listdir("Data"):
+                            remplazar=input(Colores.amarillo+
+                            f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
+                            if remplazar in ("s","S"):
+                                shutil.rmtree(os.path.join("Data",archivo))
+                                shutil.copytree(f"{ruta}/pssmanager/{directorio}/{archivo}",f"Data/{archivo}")
+                        else:
+                            shutil.copytree(f"{ruta}/pssmanager/{directorio}/{archivo}",f"Data/{archivo}")
                 print(Colores.verde+"Completado")
                 time.sleep(1)
             else:
@@ -203,16 +204,17 @@ def importar():
             time.sleep(1)
     else:
         if os.path.isdir(dispositivo):
-            if os.path.isdir(f"{dispositivo}/pssmanager/Data"):
-                for archivo in os.listdir(f"{dispositivo}/pssmanager/Data/"):
-                    if archivo in os.listdir("Data"):
-                        remplazar=input(Colores.amarillo+
-                        f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
-                        if remplazar in ("s","S"):
-                            shutil.rmtree(os.path.join("Data",archivo))
-                            shutil.copytree(f"{dispositivo}/pssmanager/Data/{archivo}",f"Data/{archivo}")
-                    else:
-                        shutil.copytree(f"{dispositivo}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+            if os.path.isdir(f"{dispositivo}/pssmanager"):
+                for directorio in os.listdir(f"{dispositivo}/pssmanager"):
+                    for archivo in os.listdir(f"{dispositivo}/pssmanager/{directorio}"):
+                        if archivo in os.listdir("Data"):
+                            remplazar=input(Colores.amarillo+
+                            f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
+                            if remplazar in ("s","S"):
+                                shutil.rmtree(os.path.join("Data",archivo))
+                                shutil.copytree(f"{dispositivo}/pssmanager/{directorio}/{archivo}",f"Data/{archivo}")
+                        else:
+                            shutil.copytree(f"{dispositivo}/pssmanager/{directorio}/{archivo}",f"Data/{archivo}")
                 print(Colores.verde+"Completado")
                 time.sleep(1)
             else:
