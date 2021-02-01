@@ -144,7 +144,7 @@ def respaldar():
         if SISTEMA == "posix":
             ruta=f"/media/{USUARIO}/{dispositivo}/"
             if os.path.isdir(ruta):
-                ruta=ruta+"/pssmanager/Data"
+                ruta=f"{ruta}/pssmanager/Data"
                 try:
                     print(Colores.amarillo+"Esto puede demorar un momento")
                     shutil.copytree("Data",ruta)
@@ -157,7 +157,19 @@ def respaldar():
                 print(Colores.rojo+"No existe el dispositivo")
                 time.sleep(1)
         else:
-            pass
+            if os.path.isdir(dispositivo):
+                ruta=f"{dispositivo}/pssmanager/Data"
+                try:
+                    print(Colores.amarillo+"Esto puede demorar un momento")
+                    shutil.copytree("Data",ruta)
+                    print(Colores.verde+"Completado")
+                    time.sleep(1)
+                except IOError:
+                    print(Colores.rojo+"No se pudo copiar en el dispositivo")
+                    time.sleep(1)
+            else:
+                print(Colores.rojo+"No existe el dispositivo")
+                time.sleep(1)
 
 def importar():
     """Metodo para pasar informacion de un dispositivo fisico """
@@ -186,7 +198,26 @@ def importar():
             print(Colores.rojo+"No existe el dispositivo")
             time.sleep(1)
     else:
-        pass
+        if os.path.isdir(dispositivo):
+            if os.path.isdir(f"{dispositivo}/pssmanager/Data"):
+                for archivo in os.listdir(f"{dispositivo}/pssmanager/Data/"):
+                    if archivo in os.listdir("Data"):
+                        remplazar=input(Colores.amarillo+
+                        f"El sitio {archivo} ya lo tienes registrado, deseas remplazar su informacion? S/N:")
+                        if remplazar in ("s","S"):
+                            shutil.rmtree(os.path.join("Data",archivo))
+                            shutil.copytree(f"{dispositivo}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+                    else:
+                        shutil.copytree(f"{dispositivo}/pssmanager/Data/{archivo}",f"Data/{archivo}")
+                print(Colores.verde+"Completado")
+                time.sleep(1)
+            else:
+                print(Colores.rojo+"Verifica el orden de tu dispositivo")
+                time.sleep(1)
+        else:
+            print(Colores.rojo+"No existe el dispositivo")
+            time.sleep(1)
+
 
 def salir():
     """Metodo para salir"""
