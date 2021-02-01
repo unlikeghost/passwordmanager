@@ -7,10 +7,14 @@ import random
 import string
 import sys
 import shutil
+import re
 from getpass import getpass
+from datetime import datetime
 from Crypto.Cipher import AES
 
 SISTEMA = os.name
+NOW=str(datetime.now())
+NOW=re.sub('[^A-Za-z0-9]+', '', NOW)
 
 if SISTEMA == "posix":
     import pwd
@@ -144,7 +148,7 @@ def respaldar():
         if SISTEMA == "posix":
             ruta=f"/media/{USUARIO}/{dispositivo}/"
             if os.path.isdir(ruta):
-                ruta=f"{ruta}/pssmanager/Data"
+                ruta=f"{ruta}/pssmanager/Data{NOW}"
                 try:
                     print(Colores.amarillo+"Esto puede demorar un momento")
                     shutil.copytree("Data",ruta)
@@ -158,7 +162,7 @@ def respaldar():
                 time.sleep(1)
         else:
             if os.path.isdir(dispositivo):
-                ruta=f"{dispositivo}/pssmanager/Data"
+                ruta=f"{dispositivo}/pssmanager/Data{NOW}"
                 try:
                     print(Colores.amarillo+"Esto puede demorar un momento")
                     shutil.copytree("Data",ruta)
