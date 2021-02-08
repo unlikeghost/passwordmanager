@@ -181,7 +181,7 @@ def importar():
     print(Colores.blanco+r"Dispositivo/pssmanager/Data")
     dispositivo=input("Nombre del dispositivo >>> ")
     if SISTEMA == "posix":
-        ruta=f"/media/{USUARIO}/{dispositivo}/"
+        ruta=f"../media/{USUARIO}/{dispositivo}/"
         if os.path.isdir(ruta):
             if os.path.isdir(f"{ruta}/pssmanager"):
                 for directorio in os.listdir(f"{ruta}/pssmanager/"):
