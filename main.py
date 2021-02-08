@@ -146,7 +146,7 @@ def respaldar():
     else:
         dispositivo=input("Nombre del dispositivo >>> ")
         if SISTEMA == "posix":
-            ruta=f"/media/{USUARIO}/{dispositivo}/"
+            ruta=f"../media/{USUARIO}/{dispositivo}/"
             if os.path.isdir(ruta):
                 ruta=f"{ruta}/pssmanager/Data{NOW}"
                 try:
